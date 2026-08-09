@@ -42,12 +42,12 @@ public class UserServices {
     public void addUser(UserRequest userRequest) {
         User user = new User();
 
-        User user1 = updateUserFromRequest(user, userRequest);
+        updateUserFromRequest(user, userRequest);
 
-        userRepo.save(user1);
+        userRepo.save(user);
     }
 
-    private User updateUserFromRequest(User user, UserRequest userRequest) {
+    private void updateUserFromRequest(User user, UserRequest userRequest) {
         user.setFirstName(userRequest.getFirstName());
         user.setLastName(userRequest.getLastName());
         user.setEmailAddress(userRequest.getEmailAddress());
@@ -63,7 +63,7 @@ public class UserServices {
             address.setZipcode(userRequest.getAddress().getZipcode());
             user.setAddress(address);
         };
-        return user;
+
     }
 
     public void deleteUser(int userId) {
