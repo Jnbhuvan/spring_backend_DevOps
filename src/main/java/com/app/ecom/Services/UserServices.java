@@ -35,8 +35,11 @@ public class UserServices {
 
     }
 
-    public User getUserById(int userid) {
-        return userRepo.findById(userid).orElse(null);
+    public UserResponse getUserById(int userid) {
+
+        return mapToUserResponse(userRepo.findById(userid).orElse(null));
+        //return userRepo.findById(userid).orElse(null);
+
     }
 
     public void addUser(UserRequest userRequest) {

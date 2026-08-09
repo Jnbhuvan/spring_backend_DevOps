@@ -1,7 +1,7 @@
 package com.app.ecom.Controller;
 
 
-import com.app.ecom.Model.User;
+//import com.app.ecom.Model.User;
 import com.app.ecom.Services.UserServices;
 import com.app.ecom.dto.UserRequest;
 import com.app.ecom.dto.UserResponse;
@@ -38,11 +38,11 @@ public class UserController {
 
     @GetMapping("/user/{userid}")
     public ResponseEntity<?> getUserById(@PathVariable int userid){
-        User user = userServices.getUserById(userid);
-        if(user == null){
+        UserResponse userResponse = userServices.getUserById(userid);
+        if(userResponse == null){
             return new ResponseEntity<>("User Not found!", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
     @PostMapping("/user")
