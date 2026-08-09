@@ -42,27 +42,28 @@ public class UserServices {
     public void addUser(UserRequest userRequest) {
         User user = new User();
 
-        updateUserFromRequest(user, userRequest);
+        User user1 = updateUserFromRequest(user, userRequest);
 
-        userRepo.save(user);
+        userRepo.save(user1);
     }
 
-    private void updateUserFromRequest(User user, UserRequest userRequest) {
+    private User updateUserFromRequest(User user, UserRequest userRequest) {
         user.setFirstName(userRequest.getFirstName());
         user.setLastName(userRequest.getLastName());
         user.setEmailAddress(userRequest.getEmailAddress());
         user.setPhoneNo(userRequest.getPhoneNo());
         user.setRole(UserRole.CUSTOMER);
-        if(user.getAddress() != null){
+        if(userRequest.getAddress() != null){
             Address address = new Address();
 
-            address.setCity(user.getAddress().getCity());
-            address.setState(user.getAddress().getState());
-            address.setCountry(user.getAddress().getCountry());
-            address.setStreet(user.getAddress().getStreet());
-            address.setZipcode(user.getAddress().getZipcode());
+            address.setCity(userRequest.getAddress().getCity());
+            address.setState(userRequest.getAddress().getState());
+            address.setCountry(userRequest.getAddress().getCountry());
+            address.setStreet(userRequest.getAddress().getStreet());
+            address.setZipcode(userRequest.getAddress().getZipcode());
             user.setAddress(address);
         };
+        return user;
     }
 
     public void deleteUser(int userId) {
