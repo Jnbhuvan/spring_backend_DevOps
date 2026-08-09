@@ -1,9 +1,11 @@
 package com.app.ecom.Services;
 
+import com.app.ecom.Model.Address;
 import com.app.ecom.Model.User;
 import com.app.ecom.Model.UserRole;
 import com.app.ecom.Repo.UserRepo;
 import com.app.ecom.dto.AddressDTO;
+import com.app.ecom.dto.UserRequest;
 import com.app.ecom.dto.UserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -37,9 +39,30 @@ public class UserServices {
         return userRepo.findById(userid).orElse(null);
     }
 
-    public void addUser(User user) {
-        user.setRole(UserRole.CUSTOMER);
+    public void addUser(UserRequest userRequest) {
+        User user = new User();
+
+        updateUserFromRequest(user, userRequest);
+
         userRepo.save(user);
+    }
+
+    private void updateUserFromRequest(User user, UserRequest userRequest) {
+        user.setFirstName(userRequest.getFirstName());
+        user.setLastName(userRequest.getLastName());
+        user.setEmailAddress(userRequest.getEmailAddress());
+        user.setPhoneNo(userRequest.getPhoneNo());
+        user.setRole(UserRole.CUSTOMER);
+        if(user.getAddress() != null){
+            Address address = new Address();
+
+            address.setCity(user.getAddress().getCity());
+            address.setState(user.getAddress().getState());
+            address.setCountry(user.getAddress().getCountry());
+            address.setStreet(user.getAddress().getStreet());
+            address.setZipcode(user.getAddress().getZipcode());
+            user.setAddress(address);
+        };
     }
 
     public void deleteUser(int userId) {
@@ -69,7 +92,7 @@ public class UserServices {
 
         userResponse.setPhoneNo(user.getPhoneNo());
         userResponse.setEmailAddress(user.getEmailAddress());
-        userResponse.setRole(user.getRole());
+
 
         if(user.getAddress() != null){
             AddressDTO addressDTO = new AddressDTO();

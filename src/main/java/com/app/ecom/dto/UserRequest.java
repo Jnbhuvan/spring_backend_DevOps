@@ -12,5 +12,4 @@ public class UserRequest {
     private String phoneNo;
     private String emailAddress;
     private AddressDTO address;
-    private UserRole role;
 }
