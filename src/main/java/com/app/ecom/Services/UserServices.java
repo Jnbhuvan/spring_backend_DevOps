@@ -70,21 +70,24 @@ public class UserServices {
         userRepo.deleteById(userId);
     }
 
-    public User updateUser(int userId, User userData){
+    public UserResponse updateUser(int userId, UserRequest userData){
         User user = userRepo.findById(userId).orElse(null);
         if(user == null){
             return null;
         }
-        user.setFirstName(userData.getFirstName());
-        user.setLastName(userData.getLastName());
-        user.setPhoneNo(userData.getPhoneNo());
-        user.setEmailAddress(userData.getEmailAddress());
+//        user.setFirstName(userData.getFirstName());
+//        user.setLastName(userData.getLastName());
+//        user.setPhoneNo(userData.getPhoneNo());
+//        user.setEmailAddress(userData.getEmailAddress());
+
+        updateUserFromRequest(user, userData);
         userRepo.save(user);
-        return user;
+        return mapToUserResponse(user);
+
 
     }
 
-    private UserResponse mapToUserResponse(User user){
+    private UserResponse mapToUserResponse(User user){ //for Get request
         UserResponse userResponse = new UserResponse();
 
         userResponse.setId(String.valueOf(user.getId()));
@@ -93,11 +96,10 @@ public class UserServices {
 
         userResponse.setPhoneNo(user.getPhoneNo());
         userResponse.setEmailAddress(user.getEmailAddress());
-
+        userResponse.setRole(UserRole.CUSTOMER);
 
         if(user.getAddress() != null){
             AddressDTO addressDTO = new AddressDTO();
-
             addressDTO.setCity(user.getAddress().getCity());
             addressDTO.setState(user.getAddress().getState());
             addressDTO.setCountry(user.getAddress().getCountry());
