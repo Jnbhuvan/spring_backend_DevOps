@@ -20,7 +20,7 @@ public class ProductServices {
 
 
     public List<ProductResponse> getAllProducts() {
-        return productRepo.findAll().stream()
+        return productRepo.findByActiveTrue().stream()
                 .map(this::mapProductsResponse)
                 .collect(Collectors.toList());
     }
@@ -59,7 +59,7 @@ public class ProductServices {
         product.setPrice(productRequest.getPrice());
         product.setImageUrl(productRequest.getImageUrl());
         product.setStockQuantity(productRequest.getStockQuantity());
-        product.setActive(true);
+        product.setActive(productRequest.getActive());
 
     }
 
