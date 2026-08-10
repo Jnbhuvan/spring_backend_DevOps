@@ -75,15 +75,11 @@ public class ProductServices {
     }
 
     public boolean deleteProduct(Long prodId){
-        try{
-        Product product = productRepo.findById(prodId).orElse(null);
-        if(product !=null){
-            productRepo.deleteById(prodId);
-            return true;
-        }
-        return false;
-        } catch (Exception e) {
-            return false;
-        }
+       return productRepo.findById(prodId).map((product)->{
+           product.setActive(false);
+           productRepo.save(product);
+           return true;
+       }).orElse(false);
+
     }
 }
