@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Service
 public class ProductServices {
 
@@ -81,5 +82,11 @@ public class ProductServices {
            return true;
        }).orElse(false);
 
+    }
+
+    public List<ProductResponse> searchProducts(String keyword) {
+        return  productRepo.searchProducts(keyword).stream()
+                .map(this::mapProductsResponse)
+                .collect(Collectors.toList());
     }
 }
