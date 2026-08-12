@@ -8,6 +8,7 @@ import com.app.ecom.Repo.ProductRepo;
 import com.app.ecom.Repo.UserRepo;
 import com.app.ecom.dto.CartItemRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -67,11 +68,33 @@ public class CartItemService {
             //create a new CartItem
             CartItem cartItem = new CartItem();
             cartItem.setQuantity(cartItemRequest.getQuantity());
+            //product.setStockQuantity(product.getStockQuantity() - cartItemRequest.getQuantity());
             cartItem.setUser(user);
             cartItem.setProduct(product);
             cartItem.setPrice(product.getPrice());
             cartItemRepo.save(cartItem);
+            //Product save = productRepo.save(product);
         }
         return true;
+    }
+
+    @Transactional
+    public boolean deleteCartItem(String userId, Long prodId) {
+        Optional<Product> productOptional = productRepo.findById(prodId);
+        if(productOptional.isEmpty()){
+            return false;
+        }
+        Product product = productOptional.get();
+
+        Optional<User> userOptional = userRepo.findById(Integer.valueOf(userId));
+
+        if(userOptional.isEmpty()){
+            return false;
+        }
+
+        User user = userOptional.get();
+
+      return cartItemRepo.deleteByUserAndProduct(user, product)>0;
+
     }
 }
