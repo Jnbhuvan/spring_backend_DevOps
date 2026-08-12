@@ -109,13 +109,13 @@ public class CartItemService {
 
         Product product = productOptional.get();
 
-        Optional<CartItem> cartItemOptional = cartItemRepo.findByUserAndProduct(user, product);
+        CartItem cartItem = cartItemRepo.findByUserAndProduct(user, product);
 
-        if(cartItemOptional.isEmpty()){
+        if(cartItem == null){
             return false;
         }
 
-        cartItemRepo.delete(cartItemOptional.get());
+        cartItemRepo.delete(cartItem);
         return true;
     }
 
@@ -125,12 +125,13 @@ public class CartItemService {
 
     public List<CartItem> getAllCartItemsByUser(Integer userid) {
 
-        Optional<User> userOptional = userRepo.findById(Integer.valueOf(userId));
+        User user = userRepo.findById(userid).orElse(null);
 
-        if(userOptional.isEmpty()){
-            return false;
+        if(user == null ){
+            return null;
         }
 
-        User user = userOptional.get();
+        return  cartItemRepo.findByUser(user);
+
     }
 }
