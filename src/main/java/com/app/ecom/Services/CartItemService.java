@@ -9,6 +9,7 @@ import com.app.ecom.Repo.UserRepo;
 import com.app.ecom.dto.CartItemRequest;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,7 +54,24 @@ public class CartItemService {
 
         User user = userOptional.get();
 
+        CartItem existingCartItem = cartItemRepo.findByUserAndProduct(user, product);
 
+        if(existingCartItem != null){
+            //update product
+            existingCartItem.setQuantity(existingCartItem.getQuantity()+ cartItemRequest.getQuantity());
+            existingCartItem.setPrice(existingCartItem.getPrice().multiply(BigDecimal.valueOf(cartItemRequest.getQuantity())));
+            cartItemRepo.save(existingCartItem);
+        }
 
+        else{
+            //create a new CartItem
+            CartItem cartItem = new CartItem();
+            cartItem.setQuantity(cartItemRequest.getQuantity());
+            cartItem.setUser(user);
+            cartItem.setProduct(product);
+            cartItem.setPrice(product.getPrice());
+            cartItemRepo.save(cartItem);
+        }
+        return true;
     }
 }
