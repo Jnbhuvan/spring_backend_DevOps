@@ -75,6 +75,8 @@ public class CartItemController {
         if(cartItemList.isEmpty()){
             return new ResponseEntity<>("Failed To fetch cart items by user id", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(cartItemList,HttpStatus.OK);
+        else {
+            return new ResponseEntity<>(cartItemList, HttpStatus.OK);
+        }
     }
 }
