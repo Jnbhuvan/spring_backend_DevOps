@@ -26,7 +26,7 @@ public class CartItemController {
     }
 
     @PostMapping("/cartitems")
-    public ResponseEntity<?> addToCart(@RequestHeader("X-User-ID") String userId,
+    public ResponseEntity<String> addToCart(@RequestHeader("X-User-ID") String userId,
                                        @RequestBody CartItemRequest cartItemRequest)
     {   if(cartItemService.addCartItems(userId, cartItemRequest)){
         return new ResponseEntity<>("CartItem added successfully", HttpStatus.OK);
@@ -34,6 +34,20 @@ public class CartItemController {
     else{
         return new ResponseEntity<>("Failed to Add CartItem to DB", HttpStatus.BAD_REQUEST);
     }
+    }
+
+
+    @DeleteMapping("/cartItem/{prodId}")
+    public ResponseEntity<String> deleteCartItem(
+            @RequestHeader("X-User-Id") String userId,
+            @PathVariable Long prodId
+    ){
+        if(cartItemService.deleteCartItem(userId, prodId)) {
+          return new ResponseEntity<>("CartItem deleted Succesfully!",HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("Failed to delete CartItem", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
