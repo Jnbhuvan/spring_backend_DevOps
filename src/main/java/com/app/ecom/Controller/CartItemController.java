@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api")
+@RequestMapping("/api/cartitems")
 public class CartItemController {
 
     CartItemService cartItemService;
@@ -20,12 +20,12 @@ public class CartItemController {
         this.cartItemService = cartItemService;
     }
 
-    @GetMapping("/cartitems")
+    @GetMapping("/")
     public ResponseEntity<List<CartItem>> getAllCartItems(){
         return new ResponseEntity<>(cartItemService.getAllCart(), HttpStatus.OK);
     }
 
-    @PostMapping("/cartitems")
+    @PostMapping("/")
     public ResponseEntity<String> addToCart(@RequestHeader("X-User-ID") String userId,
                                        @RequestBody CartItemRequest cartItemRequest)
     {   if(cartItemService.addCartItems(userId, cartItemRequest)){
@@ -37,17 +37,44 @@ public class CartItemController {
     }
 
 
-    @DeleteMapping("/cartItem/{prodId}")
+    @DeleteMapping("/{prodId}")
     public ResponseEntity<String> deleteCartItem(
             @RequestHeader("X-User-Id") String userId,
             @PathVariable Long prodId
     ){
         if(cartItemService.deleteCartItem(userId, prodId)) {
-          return new ResponseEntity<>("CartItem deleted Succesfully!",HttpStatus.OK);
+          return new ResponseEntity<>("CartItem deleted Successfully!",HttpStatus.OK);
         }
         else{
             return new ResponseEntity<>("Failed to delete CartItem", HttpStatus.BAD_REQUEST);
         }
     }
 
+    @DeleteMapping("/items/{prodId}")
+    public ResponseEntity<?> removeFromCart(
+            @RequestHeader("X-User-Id") String userId,
+
+            @PathVariable Long prodId
+    ){
+        if(cartItemService.removeFromCart(userId , prodId)){
+            return new ResponseEntity<>("Product removed Successfully from the cart", HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("Failed to remove product", HttpStatus.BAD_REQUEST);
+
+        }
+    }
+
+    @GetMapping("/{userid}")
+    public ResponseEntity<?> getAllCartItemsByUser(
+            @PathVariable Integer userid
+    )
+    {
+        List<CartItem> cartItemList = cartItemService.getAllCartItemsByUser(userid);
+
+        if(cartItemList.isEmpty()){
+            return new ResponseEntity<>("Failed To fetch cart items by user id", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(cartItemList,HttpStatus.OK);
+    }
 }
