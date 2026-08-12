@@ -29,9 +29,7 @@ public class CartItemService {
         this.userRepo = userRepo;
     }
 
-    public List<CartItem> getAllCart(){
-        return cartItemRepo.findAll();
-    }
+
 
     public boolean addCartItems(String userId, CartItemRequest cartItemRequest){
 
@@ -96,5 +94,43 @@ public class CartItemService {
 
       return cartItemRepo.deleteByUserAndProduct(user, product)>0;
 
+    }
+
+
+    public boolean removeFromCart(String userId, Long prodId) {
+        Optional<Product> productOptional = productRepo.findById(prodId);
+        Optional<User> userOptional = userRepo.findById(Integer.valueOf(userId));
+
+        if(productOptional.isEmpty() || userOptional.isEmpty()){
+            return false;
+        }
+
+        User user = userOptional.get();
+
+        Product product = productOptional.get();
+
+        Optional<CartItem> cartItemOptional = cartItemRepo.findByUserAndProduct(user, product);
+
+        if(cartItemOptional.isEmpty()){
+            return false;
+        }
+
+        cartItemRepo.delete(cartItemOptional.get());
+        return true;
+    }
+
+    public List<CartItem> getAllCart(){
+        return cartItemRepo.findAll();
+    }
+
+    public List<CartItem> getAllCartItemsByUser(Integer userid) {
+
+        Optional<User> userOptional = userRepo.findById(Integer.valueOf(userId));
+
+        if(userOptional.isEmpty()){
+            return false;
+        }
+
+        User user = userOptional.get();
     }
 }
