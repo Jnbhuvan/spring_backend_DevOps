@@ -28,7 +28,12 @@ public class CartItemController {
     @PostMapping("/cartitems")
     public ResponseEntity<?> addToCart(@RequestHeader("X-User-ID") String userId,
                                        @RequestBody CartItemRequest cartItemRequest)
-    {   return new ResponseEntity<>(HttpStatus.OK);
+    {   if(cartItemService.addCartItems(userId, cartItemRequest)){
+        return new ResponseEntity<>("CartItem added successfully", HttpStatus.OK);
+    }
+    else{
+        return new ResponseEntity<>("Failed to Add CartItem to DB", HttpStatus.BAD_REQUEST);
+    }
     }
 
 }
