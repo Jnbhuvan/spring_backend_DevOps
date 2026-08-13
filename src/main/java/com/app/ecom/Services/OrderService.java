@@ -20,6 +20,12 @@ public class OrderService {
 
     UserRepo userRepo;
 
+    CartItemService cartItemService;
+
+    public OrderService(CartItemService cartItemService) {
+        this.cartItemService = cartItemService;
+    }
+
     public OrderService(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
@@ -64,8 +70,6 @@ public class OrderService {
 
         Order savedOrder = orderRepo.save(order);
 
-        CartItemService cartItemService = new CartItemService();
-
         cartItemService.clearCart(userId);
 
         return mapToOrderResponse(savedOrder);
@@ -87,6 +91,5 @@ public class OrderService {
                             ).toList(),
                     order.getCreatedAt()
             );
-
     }
 }
