@@ -134,4 +134,13 @@ public class CartItemService {
         return  cartItemRepo.findByUser(user);
 
     }
+
+    public void clearCart(String userId) {
+        userRepo.findById(Integer.valueOf(userId)).ifPresent(
+                user -> {
+                    cartItemRepo.deleteByUser(userId);
+                }
+        );
+
+    }
 }
