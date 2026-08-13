@@ -2,9 +2,11 @@ package com.app.ecom.Controller;
 
 
 import com.app.ecom.Services.OrderService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.app.ecom.dto.OrderResponse;
+import org.junit.jupiter.api.Order;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
@@ -17,5 +19,10 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-
+    @PostMapping("/")
+    public ResponseEntity<OrderResponse> createOrder(
+            @RequestHeader("X-User-ID") String userId){
+        OrderResponse order = orderService.createOrder(userId);
+        return new ResponseEntity<>(order, HttpStatus.OK);
+    }
 }
