@@ -22,20 +22,11 @@ public class OrderService {
 
     CartItemService cartItemService;
 
-    public OrderService(CartItemService cartItemService) {
+    public OrderService(CartItemService cartItemService, UserRepo userRepo, OrderRepo orderRepo, CartItemRepo cartItemRepo) {
         this.cartItemService = cartItemService;
-    }
-
-    public OrderService(UserRepo userRepo) {
         this.userRepo = userRepo;
-    }
-
-    public OrderService(CartItemRepo cartItemRepo) {
-        this.cartItemRepo = cartItemRepo;
-    }
-
-    public OrderService(OrderRepo orderRepo) {
         this.orderRepo = orderRepo;
+        this.cartItemRepo = cartItemRepo;
     }
 
     public OrderResponse createOrder(String userId) {
