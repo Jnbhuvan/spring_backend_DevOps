@@ -1,0 +1,20 @@
+spring.application.name=ecom-application
+spring.datasource.url=jdbc:mysql://<aws-sql-db-connection-url/ecommerce_db
+spring.datasource.username=
+spring.datasource.password=
+
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=create
+spring.jpa.show-sql=true
+
+management.endpoints.web.exposure.include=*
+management.endpoint.health.show-details=always
+server.shutdown=graceful
+
+
+management.info.env.enabled=true
+management.endpoint.shutdown.enabled=true
+
+info.app.name=ECommerceBackendspringboot
+info.app.description=This is a complete E-commerce backend project made with springboot maven
+info.app.version=1.0.0
