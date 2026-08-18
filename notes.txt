@@ -18,3 +18,8 @@ management.endpoint.shutdown.enabled=true
 info.app.name=ECommerceBackendspringboot
 info.app.description=This is a complete E-commerce backend project made with springboot maven
 info.app.version=1.0.0
+
+
+//docker--commands
+
+./mvnw "-Dspring-boot.build-image.imageName=bhvnjn/spbt-backend-ecom" spring-boot:build-image
