@@ -26,3 +26,6 @@ info.app.version=1.0.0
 //docker--commands
 
 ./mvnw "-Dspring-boot.build-image.imageName=bhvnjn/spbt-backend-ecom" spring-boot:build-image
+
+cleaning for reducing time must be used before running ./mvnw spring-boot:run
+./mvnw clean spring-boot:process-aot
