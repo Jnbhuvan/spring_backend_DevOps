@@ -30,5 +30,5 @@ info.app.version=1.0.0
 cleaning for reducing time must be used before running ./mvnw spring-boot:run
 ./mvnw clean spring-boot:process-aot
 
-docker run -it -p 8080:8080 -e DB_URL="jdbc:mysql://host.docker.internal:3306/ecommerce_db" -e DB_USERNAME="root" -e DB_PASSWORD="JainagBhu01@Admin"  bhvnjn/backend-springboot-ecom
+docker run -it -p 8080:8080 -e DB_URL="jdbc:mysql://host.docker.internal:3306/ecommerce_db" -e DB_USERNAME="root" -e DB_PASSWORD=""  bhvnjn/backend-springboot-ecom
 
