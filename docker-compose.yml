@@ -1,0 +1,12 @@
+services:
+  backend:
+    image: bhvnjn/backend-springboot-ecom:v4
+    container_name: backend_image
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: ${DB_URL}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+    restart: unless-stopped
